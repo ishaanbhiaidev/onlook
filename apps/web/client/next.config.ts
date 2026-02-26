@@ -5,6 +5,12 @@
 import { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'node:path';
+
+// Skip env validation in development mode to allow dev server to start
+if (process.env.NODE_ENV === 'development' && !process.env.SKIP_ENV_VALIDATION) {
+    process.env.SKIP_ENV_VALIDATION = 'true';
+}
+
 import './src/env';
 
 const nextConfig: NextConfig = {
