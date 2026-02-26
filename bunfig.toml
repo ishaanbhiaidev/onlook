@@ -1,2 +1,5 @@
 [install]
 linker = "hoisted"
+# Suppress peer dependency warnings that don't block installation
+# These warnings are about version mismatches but don't prevent the build
+optional = true
