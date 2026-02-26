@@ -18,28 +18,27 @@ export const suggestionsRouter = createTRPCRouter({
             })),
         }))
         .mutation(async ({ ctx, input }) => {
-            const { model, headers } = initModel({
+            const { model, maxOutputTokens: defaultMaxTokens } = initModel({
                 provider: LLMProvider.OPENROUTER,
                 model: OPENROUTER_MODELS.OPEN_AI_GPT_5_NANO,
             });
+            
+            // Build conversation context
+            const conversationContext = input.messages
+                .map((m) => `${m.role}: ${m.content}`)
+                .join('\n\n');
+            
+            const prompt = `${SUGGESTION_SYSTEM_PROMPT}
+
+Conversation:
+${conversationContext}
+
+Based on our conversation, what should I work on next to improve this page? Provide 3 specific, actionable suggestions. These should be realistic and achievable. Return the suggestions as a JSON object with a 'suggestions' array containing objects with 'title' and 'prompt' fields. DO NOT include any other text.`;
+
             const { object } = await generateObject({
                 model,
-                headers,
                 schema: ChatSuggestionsSchema,
-                messages: [
-                    {
-                        role: 'system',
-                        content: SUGGESTION_SYSTEM_PROMPT,
-                    },
-                    ...convertToModelMessages(input.messages.map((m) => ({
-                        role: m.role,
-                        parts: [{ type: 'text', text: m.content }],
-                    }))),
-                    {
-                        role: 'user',
-                        content: 'Based on our conversation, what should I work on next to improve this page? Provide 3 specific, actionable suggestions. These should be realistic and achievable. Return the suggestions as a JSON object. DO NOT include any other text.',
-                    },
-                ],
+                prompt,
                 maxOutputTokens: 10000,
             });
             const suggestions = object.suggestions satisfies ChatSuggestion[];

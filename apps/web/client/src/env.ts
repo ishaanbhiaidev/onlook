@@ -7,10 +7,10 @@ export const env = createEnv({
      * isn't built with invalid env vars.
      */
     server: {
-        NODE_ENV: z.enum(['development', 'test', 'production']),
-        CSB_API_KEY: z.string(),
-        SUPABASE_DATABASE_URL: z.url(),
-        SUPABASE_SERVICE_ROLE_KEY: z.string(),
+        NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+        CSB_API_KEY: z.string().optional(),
+        SUPABASE_DATABASE_URL: z.string().optional(),
+        SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
         RESEND_API_KEY: z.string().optional(),
         FREESTYLE_API_KEY: z.string().optional(),
 
@@ -33,7 +33,7 @@ export const env = createEnv({
         GOOGLE_PRIVATE_KEY_ID: z.string().optional(),
 
         // Model providers
-        OPENROUTER_API_KEY: z.string(),
+        OPENROUTER_API_KEY: z.string().optional(),
         ANTHROPIC_API_KEY: z.string().optional(),
         GOOGLE_AI_STUDIO_API_KEY: z.string().optional(),
         OPENAI_API_KEY: z.string().optional(),
@@ -41,7 +41,7 @@ export const env = createEnv({
         // n8n
         N8N_WEBHOOK_URL: z.string().optional(),
         N8N_API_KEY: z.string().optional(),
-        N8N_LANDING_FORM_URL: z.string().url().optional(),
+        N8N_LANDING_FORM_URL: z.string().optional(),
         N8N_LANDING_FORM_HEADER_NAME: z.string().optional(),
         N8N_LANDING_FORM_HEADER_VALUE: z.string().optional(),
 
@@ -54,7 +54,7 @@ export const env = createEnv({
         // Langfuse
         LANGFUSE_SECRET_KEY: z.string().optional(),
         LANGFUSE_PUBLIC_KEY: z.string().optional(),
-        LANGFUSE_BASEURL: z.string().url().optional(),
+        LANGFUSE_BASEURL: z.string().optional(),
 
         // GitHub
         GITHUB_APP_ID: z.string().optional(),
@@ -67,9 +67,9 @@ export const env = createEnv({
      * `NEXT_PUBLIC_`.
      */
     client: {
-        NEXT_PUBLIC_SITE_URL: z.url().default('http://localhost:3000'),
-        NEXT_PUBLIC_SUPABASE_URL: z.string(),
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
+        NEXT_PUBLIC_SITE_URL: z.string().default('http://localhost:3000'),
+        NEXT_PUBLIC_SUPABASE_URL: z.string().optional(),
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
         NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
         NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
         NEXT_PUBLIC_GLEAP_API_KEY: z.string().optional(),

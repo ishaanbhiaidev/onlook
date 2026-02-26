@@ -18,9 +18,9 @@
         "docs"
     ],
     "scripts": {
-        "build": "bun --filter @onlook/web build:client",
-        "start": "bun --filter @onlook/web start:client",
-        "dev": "bun --filter @onlook/web dev",
+        "build": "bun --filter @onlook/web-client build",
+        "start": "bun --filter @onlook/web-client start",
+        "dev": "bun --filter @onlook/web-client dev",
         "test": "bun --filter '*' test",
         "docs": "bun --filter @onlook/docs dev",
         "dev:admin": "bun --filter @onlook/admin dev",
@@ -52,5 +52,11 @@
     "devDependencies": {
         "@onlook/eslint": "*"
     },
-    "packageManager": "bun@1.3.1"
+    "packageManager": "bun@1.3.1",
+    "dependencies": {
+        "@t3-oss/env-nextjs": "^0.13.10",
+        "next": "^16.1.6",
+        "next-intl": "^4.8.3",
+        "zod": "^4.3.6"
+    }
 }
